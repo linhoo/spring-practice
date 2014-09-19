@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+<bean id="helloService"
+	class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean"
+	p:wsdlDocumentUrl="http://localhost:8779/services/HellosService?wsdl"
+	p:serviceName="helloService"
+	p:portName="HelloServiceEndpointPort"
+	p:serviceInterface="org.tobby.ws.spring.endpoint.HelloService"
+	p:namespaceUri="http://endpoint.spring.ws.tobby.org/"/>
+</beans>
