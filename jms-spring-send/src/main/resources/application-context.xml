@@ -7,6 +7,14 @@
 		class="org.apache.activemq.spring.ActiveMQConnectionFactory">
 		<property name="brokerURL" value="tcp://localhost:61616"/>
 	</bean>
+	
+	<bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="spitter.queue9"/>
+	</bean>
+	
+	<bean id="topic" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="spitter.queue"/>
+	</bean>
 
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="connectionFactory"/>

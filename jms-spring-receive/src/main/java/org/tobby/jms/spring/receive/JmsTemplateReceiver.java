@@ -1,5 +1,7 @@
 package org.tobby.jms.spring.receive;
 
+import java.util.Date;
+
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
@@ -17,7 +19,7 @@ public class JmsTemplateReceiver {
 		TextMessage message = (TextMessage)jmsTemplate.receive();
 		try {
 			String text = message.getText();
-			System.out.println(text);
+			System.out.println(new Date() + text);
 		} catch (JMSException e) {
 			throw JmsUtils.convertJmsAccessException(e);
 		}
