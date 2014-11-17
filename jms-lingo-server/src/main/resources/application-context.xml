@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:jms="http://www.springframework.org/schema/jms"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    	http://www.springframework.org/schema/jms
+    	http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+	<bean id="connectionFactory"
+		class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616"/>
+	</bean>
+	
+	<bean id="alertServiceQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="spitter.queue"/>
+	</bean>
+	
+	<bean id="alertService" class="org.tobby.jms.lingo.service.impl.AlertServiceImpl"/>
+
+	<!-- incubator-activemq:activemq-core:4.0:activemq-core-4.0.jar包无法从Maven Repository
+		下载到，要自行放置。
+		incubator-activemq:activeio-core:3.0-beta3:activeio-core-3.0-beta3.jar包也无法从
+		Maven Repository下载到，要自行放置。lib下的是用activeio-core-3.0.1.jar改名字得到的，因为
+		只能从Maven Repository中找到这一版本。	
+	 -->
+	<bean id="alertServiceExporter"
+		class="org.logicblaze.lingo.jms.JmsServiceExporter"
+		p:connectionFactory-ref="connectionFactory"
+		p:destination-ref="alertServiceQueue"
+		p:service-ref="alertService"
+		p:serviceInterface="org.tobby.jms.lingo.service.AlertService"/>
+</beans>
