@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:jms="http://www.springframework.org/schema/jms"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    	http://www.springframework.org/schema/jms
+    	http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+    	http://www.springframework.org/schema/util
+    	http://www.springframework.org/schema/util/spring-util.xsd
+    	http://www.springframework.org/schema/context
+    	http://www.springframework.org/schema/context/spring-context.xsd">
+    	
+    <util:properties id="aa" location="classpath:application.properties"/>
+    
+    <context:property-placeholder location="classpath:application.properties"/>
+    	
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		p:host="${mailserver.host}"
+		p:username="${mail.username}"
+		p:password="${mail.password}"/>
+	
+	<bean id="spitterMailService" class="org.tobby.spring.mail.SpitterEmailServiceImpl">
+		<property name="javaMailSender" ref="javaMailSender"/>
+		<property name="velocityEngine" ref="velocityEngine"/>
+	</bean>
+
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+
+	<!--
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		p:host="${mailserver.host}"
+		p:port="322"
+		p:username="tobby"
+		p:password="123"/>
+	-->
+	
+	<!--
+	<jee:jndi-lookup id="mailSession" jndi-name="mail/Session" resource-ref="true"/>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		p:session-ref="mailSession"/>
+	-->
+</beans>
