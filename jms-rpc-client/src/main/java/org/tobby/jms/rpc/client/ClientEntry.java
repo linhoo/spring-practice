@@ -14,7 +14,7 @@ public class ClientEntry {
 		alert.setId(879);
 		alert.setContent("I am Tobby's Alert");
 		System.out.println("Preparing to send alert ... ");
-		alertService.sendAlert(alert);
+		alertService.sendAlert("I am Tobby's Alert Hoooooo");
 		System.out.println("Alert sended done");
 	}
 }
