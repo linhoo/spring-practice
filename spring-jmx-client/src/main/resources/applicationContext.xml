@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/jms
+    http://www.springframework.org/schema/jms/spring-jms.xsd
+    http://activemq.apache.org/schema/core
+    http://activemq.apache.org/schema/core/activemq-core-5.10.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	
+<!-- 	<bean id="mBeanServerClient" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean"
+		p:serviceUrl="service:jmx:jmxmp://localhost:9875"/> -->
+		
+	<bean id="mBeanServerClient" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean"
+		p:serviceUrl="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/spitter"/>
+
+	<bean id="jmxClient" class="org.tobby.spring.jmx.client.JmxClient">
+		<property name="mBeanServerConnection" ref="mBeanServerClient"/>
+	</bean>
+	
+	<bean id="remoteHomeControllerMBean" class="org.springframework.jmx.access.MBeanProxyFactoryBean"
+		p:objectName="spitter:name=HomeController" p:server-ref="mBeanServerClient"
+		p:proxyInterface="org.tobby.spring.jmx.access.HomeControllerManagedOperations"/>
+
+</beans>
